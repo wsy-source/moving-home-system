@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--带包的全类名-->
+<mapper namespace="com.dao.UserDao">
+
+    <resultMap id="queryUser" type="com.bean.User">
+        <id property="id" column="id"/>
+        <result property="username" column="name"/>
+        <result property="password" column="password"/>
+        <result property="status" column="status" typeHandler="com.handler.UserTypeHandler"/>
+    </resultMap>
+    <insert id="registerUser">
+        insert into db_transport.user(name, password)
+                values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="queryUser" resultMap="queryUser">
+        select *
+        from db_transport.user
+        where name = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryUserByUsername" resultMap="queryUser">
+        select * from db_transport.user
+        <where>
+            <if test="username != null">
+                and name = #{username}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryUserByStatus" resultMap="queryUser">
+        select * from db_transport.user where status = #{adminStatus,typeHandler=com.handler.UserTypeHandler}
+    </select>
+
+</mapper>

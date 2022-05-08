@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--带包的全类名-->
+<mapper namespace="com.dao.MoveBookingDao">
+    <!-- 标签以及要执行的sql语句-->
+
+    <resultMap id="MoveBookingDao" type="com.bean.MoveBooking">
+        <id column="id" property="id"/>
+        <result column="area" property="area"/>
+        <result column="cartype" property="cartype"/>
+        <result column="movedate" property="movedate"/>
+        <result column="phone" property="phone"/>
+        <result column="status" typeHandler="com.handler.StatusTypeHandler" property="status"/>
+    </resultMap>
+
+    <update id="updateMoveBookingStatusById">
+        update db_transport.move_booking
+        <set>
+            <if test="status != null">
+                status=#{status,typeHandler=com.handler.StatusTypeHandler},
+            </if>
+        </set>
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+        </where>
+    </update>
+
+    <select id="queryAll" resultMap="MoveBookingDao">
+        select *
+        from db_transport.move_booking
+        order by movedate
+    </select>
+    <select id="queryMoveBookingById" resultMap="MoveBookingDao">
+        select *
+        from db_transport.move_booking
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertMoveBooking" useGeneratedKeys="true" keyProperty="id">
+        insert into db_transport.move_booking(area, cartype, movedate, phone, status, username, address)
+            values
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="area != null">
+                   #{area,jdbcType=VARCHAR},
+                </if>
+                <if test="cartype != null">
+                     #{cartype,jdbcType=VARCHAR},
+                </if>
+                <if test="movedate != null">
+                    #{movedate,jdbcType=TIMESTAMP},
+                </if>
+                <if test="phone != null ">
+                     #{phone,jdbcType=VARCHAR},
+                </if>
+                <if test="status != null" >
+                    #{status,typeHandler=com.handler.StatusTypeHandler},
+                </if>
+                <if test="username != null">
+                     #{username,jdbcType=VARCHAR},
+                </if>
+                <if test="address != null">
+                     #{address,jdbcType=VARCHAR},
+                </if>
+            </trim>
+
+    </insert>
+</mapper>

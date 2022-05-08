@@ -1,0 +1,43 @@
+.bgc {
+    background-color: #ffffff;
+    font-size: 18px;
+    line-height: 30px;
+    color: black;
+    position: relative;
+}
+.bgc a{
+    color: black;
+}
+.login{
+    position: absolute;
+    right: 20px;
+}
+
+.register {
+    position: absolute;
+    right: 80px;
+}
+.container h2 {
+    font-weight: 700;
+    margin-top: 20px;
+    text-align: center;
+}
+.bt {
+    height: 50px;
+    width: 100%;
+    background-color: red;
+}
+.top {
+    margin-top: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.margin-left {
+    margin-left: 100px;
+}
+.margin-right {
+    margin-right: 100px;
+}
